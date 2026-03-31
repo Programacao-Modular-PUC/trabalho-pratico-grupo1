@@ -1,0 +1,35 @@
+@import "/frontend/assets/css/variables.css";
+
+.results {
+  position: absolute;
+  top: 125%;
+  left: 0;
+  right: 0;
+  background: var(--color-background);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  max-height: 10rem;
+  overflow-y: auto;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.1s ease;
+}
+
+.results.hidden {
+  display: block !important;
+  opacity: 0;
+  cursor: default;
+  pointer-events: none;
+}
+
+.results span {
+  display: block;
+  padding: var(--spacing-sm);
+  color: var(--color-text-dark);
+  cursor: pointer;
+}
+
+.results span:hover {
+  background: var(--color-hover);
+  color: var(--color-text-dark);
+}

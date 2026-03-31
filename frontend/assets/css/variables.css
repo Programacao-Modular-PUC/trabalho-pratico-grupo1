@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  /* Cores */
+  --color-primary: #a05ed1;
+  --color-secondary: #fce301;
+  --color-background: #fffef9;
+  --color-background-overlay: rgba(150, 150, 150, 0.5);
+  --color-text-dark: #464646;
+  --color-text-light: #8e8e8e;
+  --color-hover: #e0e0e0;
+  --color-border: #dcdcdc;
+
+  /* Fontes */
+  --font-primary: "Inter", sans-serif;
+  --font-secondary: "Roboto", sans-serif;
+
+  /* Tamanhos de fonte */
+  --font-sm: 0.75rem;
+  /* 12px */
+  --font-md: 1rem;
+  /* 16px */
+  --font-lg: 1.25rem;
+  /* 20px */
+  --font-xl: 1.5rem;
+  /* 24px */
+
+  /* Pesos de fonte */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-bold: 700;
+
+  /* Espaçamentos */
+  --spacing-xs: 0.25rem;
+  /* 4px */
+  --spacing-sm: 0.5rem;
+  /* 8px */
+  --spacing-md: 1rem;
+  /* 16px */
+  --spacing-lg: 1.5rem;
+  /* 24px */
+  --spacing-xl: 2rem;
+  /* 32px */
+  --spacing-xxl: 3rem;
+  /* 48px */
+
+  /* Bordas */
+  --radius-sm: 0.25rem;
+  /* 4px */
+  --radius-md: 0.5rem;
+  /* 8px */
+  --radius-lg: 1rem;
+  /* 16px */
+  --radius-pill: 9999px;
+  --radius-circle: 50%;
+}

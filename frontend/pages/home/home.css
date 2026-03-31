@@ -1,0 +1,12 @@
+@import "/frontend/assets/css/variables.css";
+
+#form-header {
+  display: block !important;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}

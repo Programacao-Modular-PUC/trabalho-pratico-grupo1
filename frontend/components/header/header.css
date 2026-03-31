@@ -1,0 +1,29 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-xxl);
+  border-bottom: 1px solid var(--color-border);
+}
+
+header img {
+  width: 4rem;
+}
+
+header img:hover {
+  filter: brightness(0.8);
+}
+
+header a {
+  color: var(--color-text-dark);
+  text-decoration: underline;
+  padding: var(--spacing-sm);
+}
+
+header a:hover {
+  color: var(--color-text-light);
+}
+
+#form-header {
+  display: none;
+}

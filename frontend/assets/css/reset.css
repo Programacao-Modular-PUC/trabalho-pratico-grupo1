@@ -1,0 +1,37 @@
+@import '/frontend/assets/css/variables.css';
+
+/* Remove margens e paddings padrao */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Definir altura minima para o body */
+body {
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+/* Estilizar texto */
+h1, h2, h3, h4, h5, h6, label {
+  font-family: var(--font-primary);
+}
+
+p, span, a {
+  font-family: var(--font-secondary);
+  line-height: 1.5;
+}
+
+input, button {
+  font-family: var(--font-secondary);
+}
+
+input:focus, button:focus {
+  outline: none;
+}
+
+label {
+  user-select: none;
+  color: var(--color-text-light);
+}

@@ -1,0 +1,246 @@
+@import "/frontend/assets/css/variables.css";
+
+.link,
+button {
+  cursor: pointer;
+  user-select: none;
+}
+
+main {
+  padding: var(--spacing-xl) var(--spacing-xxl);
+}
+
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--color-background-overlay);
+  z-index: 999;
+}
+
+.spinner {
+  width: 3rem;
+  height: 3rem;
+
+  border: 4px solid var(--color-border);
+  border-top: 4px solid var(--color-primary);
+  border-radius: 50%;
+
+  animation: spin 1s linear infinite;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-background-overlay);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: var(--color-background);
+  border: 3px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  width: 25rem;
+  padding: var(--spacing-lg);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-box h2 {
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-xl);
+  user-select: none;
+}
+
+.modal-box p {
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-md);
+}
+
+.modal-box .modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.modal-box button {
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: var(--font-medium);
+}
+
+.modal-box button.confirm {
+  width: 100%;
+  background: var(--color-primary);
+  color: var(--color-background);
+  padding: var(--spacing-sm);
+  font-size: var(--font-md);
+}
+
+.modal-box button.cancel {
+  width: 100%;
+  background: var(--color-background);
+  color: var(--color-text-dark);
+  padding: var(--spacing-sm);
+  font-size: var(--font-md);
+  border: 1px solid var(--color-primary);
+}
+
+.modal-box button:hover {
+  filter: brightness(0.9);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Date picker */
+.flatpickr-calendar {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--spacing-lg) !important;
+
+  width: max-content !important;
+
+  background: var(--color-background) !important;
+  border: 1px solid var(--color-primary) !important;
+  border-radius: var(--radius-md) !important;
+  font-family: var(--font-primary) !important;
+  margin-top: var(--spacing-sm) !important;
+  color: var(--color-text-dark) !important;
+  padding: var(--spacing-md) !important;
+}
+
+.flatpickr-month {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--color-text-dark) !important;
+  padding: var(--spacing-md) var(--spacing-xs) !important;
+}
+
+.flatpickr-current-month {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: var(--spacing-md) var(--spacing-xs) !important;
+  gap: var(--spacing-md) !important;
+  width: 100% !important;
+  left: 0 !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+  background: var(--color-hover) !important;
+  color: var(--color-text-dark) !important;
+}
+
+.flatpickr-monthDropdown-months {
+  padding: var(--spacing-md) var(--spacing-xs) !important;
+}
+
+.numInputWrapper {
+  padding: var(--spacing-xs) 0 !important;
+}
+
+.numInputWrapper:hover {
+  background: var(--color-hover) !important;
+  color: var(--color-text-dark) !important;
+}
+
+.flatpickr-weekdays {
+  user-select: none !important;
+  margin-bottom: var(--spacing-sm) !important;
+}
+
+.flatpickr-day {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: var(--radius-sm) !important;
+  user-select: none !important;
+}
+
+.flatpickr-day:hover {
+  background: var(--color-hover) !important;
+  color: var(--color-text-dark) !important;
+}
+
+.flatpickr-day.selected {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--color-primary) !important;
+  color: var(--color-background) !important;
+  border: 2px solid var(--color-text-dark) !important;
+}
+
+.flatpickr-day.selected:hover {
+  background: var(--color-secondary) !important;
+  color: var(--color-text-dark) !important;
+}
+
+.flatpickr-day.today {
+  border: 1px solid var(--color-primary) !important;
+}
+
+.flatpickr-day.prevmonthDay,
+.flatpickr-day.nextmonthDay {
+  background: var(--color-hover) !important;
+}
+
+.flatpickr-next-month,
+.flatpickr-prev-month {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 3rem !important;
+  height: 3rem !important;
+  margin: var(--radius-md);
+}
+
+.flatpickr-next-month:hover,
+.flatpickr-prev-month:hover {
+  background: var(--color-hover) !important;
+  border-radius: var(--radius-circle) !important;
+}
+
+.flatpickr-next-month svg,
+.flatpickr-prev-month svg {
+  fill: var(--color-text-dark) !important;
+  stroke: var(--color-text-dark) !important;
+  width: 1rem !important;
+  height: 1rem !important;
+}
