@@ -1,19 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
   /* Cores */
   --color-primary: #a05ed1;
   --color-secondary: #fce301;
+  --color-tertiary: #4b9954;
   --color-background: #fffef9;
   --color-background-overlay: rgba(150, 150, 150, 0.5);
   --color-text-dark: #464646;
   --color-text-light: #8e8e8e;
   --color-hover: #e0e0e0;
   --color-border: #dcdcdc;
+  --color-dark: #11110f;
+  --color-gray: #6e6e6e;
 
   /* Fontes */
-  --font-primary: "Inter", sans-serif;
-  --font-secondary: "Roboto", sans-serif;
+  --font-primary: "Poppins", sans-serif;
+  --font-secondary: "Inter", sans-serif;
 
   /* Tamanhos de fonte */
   --font-sm: 0.75rem;
