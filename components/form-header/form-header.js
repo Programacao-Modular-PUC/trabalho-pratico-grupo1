@@ -2,7 +2,7 @@ import {
   loadComponent,
   dateInputConfig,
   showModal,
-} from "/frontend/assets/js/utils.js";
+} from "/assets/js/utils.js";
 
 async function onSubmit() {
   const form = document.getElementById("search-form");
