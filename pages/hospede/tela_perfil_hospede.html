@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ReservasJá - Perfil</title>
+    <link rel="stylesheet" href="tela_perfil_hospede.css"> 
+    <link rel="stylesheet" href="../../assets/css/style.css"> 
+</head>
+<body>
+
+    <div id="loader" class="hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <header class="navbar">
+        <div class="logo"><img src="../../assets/images/banner.png" alt="logo"></div>
+        <div class="user-icon">👤</div>
+    </header>
+
+    <div class="container">
+        
+        <aside class="sidebar">
+            <ul>
+                <li class="active">👤 Meus Dados</li>
+                <li>✈️ Viagens</li>
+                <li>❤️ Favoritos</li>
+                <li>💳 Pagamentos</li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <h1>Olá, João!</h1>
+            
+            <h3>PRÓXIMAS VIAGENS</h3>
+            <div class="grid-cards">
+                <div class="card">
+                    <div class="image-placeholder">🖼️</div>
+                    <div class="card-info">
+                        <strong>Apto Praia</strong>
+                        <p>01/06/23 - 06/06/23</p>
+                        <span class="status-badge">Confirmado</span>
+                        <button class="link">VER DETALHES</button>
+                    </div>
+                </div>
+                </div>
+
+            <h3>VIAGENS ANTERIORES</h3>
+            <div class="divider"></div>
+        </main>
+    </div>
+
+    <div class="modal-overlay hidden">
+        <div class="modal-box">
+            <h2>Confirmar Reserva</h2>
+            <p>Deseja confirmar o aluguel para Maraú?</p>
+            <div class="modal-buttons">
+                <button class="cancel">Cancelar</button>
+                <button class="confirm">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

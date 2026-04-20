@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f4f4f4;
+}
+
+.logo {
+    width: 150px; 
+}
+
+.logo img {
+    width: 100%; 
+    height: auto; 
+    display: block;
+}
+
+/* Header */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background: white;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Layout Principal */
+.container {
+    display: flex; /* Faz a sidebar e o content ficarem lado a lado */
+    min-height: calc(100vh - 60px); /* Altura total menos o header */
+}
+
+/* Menu Lateral */
+.sidebar {
+    width: 250px;
+    background: #eee;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    padding: 12px 10px;
+    color: #555;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.sidebar li:hover {
+    background: #e0e0e0;
+}
+
+.sidebar li.active {
+    border-left: 4px solid purple;
+    padding-left: 15px;
+    font-weight: bold;
+    color: purple;
+    background: #f0f0f0;
+}
+
+/* Área de Conteúdo */
+.content {
+    flex: 1; /* Ocupa o restante do espaço */
+    padding: 30px;
+}
+
+h1 { margin-bottom: 20px; }
+h3 { margin: 25px 0 15px; font-size: 0.9rem; color: #555; }
+
+/* Grid de Cards */
+.grid-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 200px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.image-placeholder {
+    height: 110px;
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-info {
+    padding: 12px;
+    font-size: 0.85rem;
+}
+
+.status-badge {
+    display: inline-block;
+    background: purple;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    margin: 8px 0;
+}
+
+/* Botões de Link (Ver Detalhes) */
+button.link {
+    width: 100%;
+    padding: 8px;
+    background: white;
+    border: 1px solid purple;
+    color: purple;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+button.link:hover {
+    background: purple;
+    color: white;
+}
+
+.divider {
+    border-bottom: 2px solid #ddd;
+    margin-top: 10px;
+}
