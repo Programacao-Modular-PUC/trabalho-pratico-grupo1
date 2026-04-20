@@ -1,0 +1,319 @@
+.client-dashboard {
+    display: flex;
+    gap: var(--spacing-xxl);
+    width: 100%;
+}
+
+.client-dashboard .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    width: 20%;
+    user-select: none;
+    padding-top: var(--spacing-sm);
+}
+
+.client-dashboard .sidebar .item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-md);
+    color: var(--color-black);
+    cursor: pointer;
+}
+
+.client-dashboard .sidebar .item.selected {
+    background-color: var(--color-hover);
+}
+
+.client-dashboard .sidebar .item:hover {
+    background-color: var(--color-hover);
+}
+
+.client-dashboard .sidebar .item img {
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+}
+
+.client-dashboard .content {
+    width: 80%;
+}
+
+.client-dashboard .content > div {
+    display: none;
+}
+
+.client-dashboard .content > div.selected {
+    display: flex;
+}
+
+.client-dashboard .content h1 {
+    margin-bottom: var(--spacing-xxl);
+    color: var(--color-dark);
+    user-select: none;
+}
+
+.client-dashboard .content .meus-dados {
+    flex-direction: column;
+}
+
+.client-dashboard .content .meus-dados form {
+    display: flex;
+    gap: var(--spacing-xxl);
+}
+
+.client-dashboard .content .meus-dados form h3 {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    color: var(--color-dark);
+    user-select: none;
+    pointer-events: none;
+}
+
+.client-dashboard .content .meus-dados form .form-group {
+    display: flex;
+    align-items: center;
+}
+
+.client-dashboard .content .meus-dados form .form-group label {
+    width: 25%;
+    color: var(--color-text-dark);
+    font-weight: var(--font-weight-bold);
+}
+
+.client-dashboard .content .meus-dados form .form-group input {
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    flex: 1;
+}
+
+.client-dashboard .content .meus-dados form .form-group input.changed {
+    border-color: var(--color-primary);
+}
+
+.client-dashboard .content .meus-dados form .dados-pessoais,
+.client-dashboard .content .meus-dados form .endereco {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.client-dashboard .content .meus-dados .buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xxl);
+}
+
+.client-dashboard .content .meus-dados .buttons button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-md);
+    cursor: pointer;
+}
+
+.client-dashboard .content .meus-dados .buttons button:hover:not(:disabled) {
+    opacity: 0.6;
+}
+
+.client-dashboard .content .meus-dados .buttons button.reset {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+}
+
+.client-dashboard .content .meus-dados .buttons button.save {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+}
+
+.client-dashboard .content .meus-dados .buttons button.save:disabled {
+    background-color: var(--color-hover);
+    cursor: not-allowed;
+}
+
+.client-dashboard .content .viagens {
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.client-dashboard .content .viagens .trips {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.client-dashboard .content .viagens .trips .trip {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.client-dashboard .content .viagens .trips .trip h3 {
+    color: var(--color-dark);
+    user-select: none;
+}
+
+.client-dashboard .content .viagens .trips .trip p {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--color-text-dark);
+    font-size: var(--font-md);
+    user-select: none;
+}
+
+.client-dashboard .content .viagens .trips .trip span {
+    width: fit-content;
+    text-align: center;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-terciary);
+    color: var(--color-background);
+    font-size: var(--font-xs);
+    user-select: none;
+}
+
+.client-dashboard .content .viagens .trips .trip span.reservado {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+}
+
+.client-dashboard .content .viagens .trips .trip span.em_andamento {
+    background-color: var(--color-secondary);
+    color: var(--color-text-dark);
+}
+
+.client-dashboard .content .viagens .trips .trip span.cancelado {
+    background-color: var(--color-gray);
+    color: var(--color-background);
+}
+
+.client-dashboard .content .viagens .trips .trip button {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-gray);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-background);
+    color: var(--color-dark);
+    font-size: var(--font-sm);
+    cursor: pointer;
+}
+
+.client-dashboard .content .viagens .trips .trip button:hover {
+    background-color: var(--color-hover);
+}
+
+.client-dashboard .content .viagens .no-trips {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    color: var(--color-text-dark);
+    font-size: var(--font-md);
+    user-select: none;
+}
+
+.client-dashboard .content .viagens .no-trips img {
+    width: 48px;
+    height: 48px;
+    pointer-events: none;
+}
+
+.client-dashboard .content .pagamentos {
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.client-dashboard .content .pagamentos .payments {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.client-dashboard .content .pagamentos .payments .payment {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.client-dashboard .content .pagamentos .payments .payment h3 {
+    color: var(--color-dark);
+    user-select: none;
+}
+
+.client-dashboard .content .pagamentos .payments .payment p {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--color-text-dark);
+    font-size: var(--font-md);
+    user-select: none;
+}
+
+.client-dashboard .content .pagamentos .payments .payment span {
+    width: fit-content;
+    text-align: center;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-secondary);
+    color: var(--color-dark);
+    font-size: var(--font-xs);
+    user-select: none;
+}
+
+.client-dashboard .content .pagamentos .payments .payment span.pago {
+    background-color: var(--color-terciary);
+    color: var(--color-background);
+}
+
+.client-dashboard .content .pagamentos .payments .payment span.pendente {
+    background-color: var(--color-secondary);
+    color: var(--color-dark);
+}
+
+.client-dashboard .content .pagamentos .payments .payment span.cancelado {
+    background-color: var(--color-gray);
+    color: var(--color-background);
+}
+
+.client-dashboard .content .pagamentos .payments .payment span.estornado {
+    background-color: var(--color-dark);
+    color: var(--color-background);
+}
+
+.client-dashboard .content .pagamentos .payments .payment button {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--color-gray);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-background);
+    color: var(--color-dark);
+    font-size: var(--font-sm);
+    cursor: pointer;
+}
+
+.client-dashboard .content .pagamentos .payments .payment button:hover {
+    background-color: var(--color-hover);
+}

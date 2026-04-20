@@ -4,7 +4,7 @@
   /* Cores */
   --color-primary: #a05ed1;
   --color-secondary: #fce301;
-  --color-tertiary: #4b9954;
+  --color-terciary: #4b9954;
   --color-background: #fffef9;
   --color-background-overlay: rgba(150, 150, 150, 0.5);
   --color-text-dark: #464646;
@@ -19,6 +19,8 @@
   --font-secondary: "Inter", sans-serif;
 
   /* Tamanhos de fonte */
+  --font-xs: 0.625rem;
+  /* 10px */
   --font-sm: 0.75rem;
   /* 12px */
   --font-md: 1rem;

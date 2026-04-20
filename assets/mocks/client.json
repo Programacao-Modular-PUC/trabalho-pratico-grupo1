@@ -1,0 +1,111 @@
+{
+    "nome": "Lucas Silva",
+    "cpf": "123.456.789-00",
+    "email": "lucas.silva@example.com",
+    "telefone": "(11) 91234-5678",
+    "endereco": {
+        "rua": "Rua das Flores",
+        "numero": "123",
+        "bairro": "Jardim das Acácias",
+        "cidade": "São Paulo",
+        "estado": "SP",
+        "cep": "01234-567"
+    },
+    "alugueis": [
+        {
+            "id": 1,
+            "data_inicio": "2024-07-01",
+            "data_fim": "2024-07-10",
+            "status": "CONCLUIDO",
+            "quarto": {
+                "tipo": "INDIVIDUAL",
+                "residencia": {
+                    "endereco": {
+                        "cidade": "Rio de Janeiro"
+                    }
+                }
+            },
+            "pagamento": {
+                "dataPagamento": "2024-06-25",
+                "valor": 500.00,
+                "status": "ESTORNADO"
+            }
+        },
+        {
+            "id": 2,
+            "data_inicio": "2024-08-15",
+            "data_fim": "2024-08-20",
+            "status": "EM_ANDAMENTO",
+            "quarto": {
+                "tipo": "CASAL",
+                "residencia": {
+                    "endereco": {
+                        "cidade": "Belo Horizonte"
+                    }
+                }
+            },
+            "pagamento": {
+                "dataPagamento": "2024-08-10",
+                "valor": 1000.00,
+                "status": "PAGO"
+            }
+        },
+        {
+            "id": 3,
+            "data_inicio": "2024-09-05",
+            "data_fim": "2024-09-12",
+            "status": "CANCELADO",
+            "quarto": {
+                "tipo": "CASAL",
+                "residencia": {
+                    "endereco": {
+                        "cidade": "Curitiba"
+                    }
+                }
+            },
+            "pagamento": {
+                "dataPagamento": "2024-08-30",
+                "valor": 1200.00,
+                "status": "CANCELADO"
+            }
+        },
+        {
+            "id": 4,
+            "data_inicio": "2024-10-01",
+            "data_fim": "2024-10-07",
+            "status": "RESERVADO",
+            "quarto": {
+                "tipo": "INDIVIDUAL",
+                "residencia": {
+                    "endereco": {
+                        "cidade": "Porto Alegre"
+                    }
+                }
+            },
+            "pagamento": {
+                "dataPagamento": "2024-09-25",
+                "valor": 800.00,
+                "status": "PENDENTE"
+            }
+        },
+        {
+            "id": 5,
+            "data_inicio": "2024-11-15",
+            "data_fim": "2024-11-20",
+            "status": "CONCLUIDO",
+            "quarto": {
+                "tipo": "CASAL",
+                "residencia": {
+                    "endereco": {
+                        "cidade": "Salvador"
+                    }
+                }
+            },
+            "pagamento": {
+                "dataPagamento": "2024-11-10",
+                "valor": 1500.00,
+                "status": "PAGO"
+            }
+        }
+    ]
+}
