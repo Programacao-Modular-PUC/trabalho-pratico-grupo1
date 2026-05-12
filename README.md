@@ -39,5 +39,7 @@ O ReservasJá é um sistema desenvolvido para modernizar e escalar o processo de
 
 ![Tela hospede](docs/screens/reservasja-pagina-hospede.png)
 
+![Tela anfitrião](docs/screens/reservasja-pagina-anfitriao.png)
+
 
 
