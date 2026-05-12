@@ -1,4 +1,4 @@
-import { getCidades } from "/frontend/assets/js/api.js";
+import { getCidades } from "/assets/js/api.js";
 
 async function atualizarLista(input, list) {
   const query = input.value.trim().toLowerCase();

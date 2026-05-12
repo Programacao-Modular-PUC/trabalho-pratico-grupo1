@@ -27,6 +27,7 @@ O ReservasJá é um sistema desenvolvido para modernizar e escalar o processo de
 
 ## Cartões CRC
 
+[Clique aqui para acessar o Cartão CRC](docs/crc/Cartões%20CRC.pdf)
 
 ---
 

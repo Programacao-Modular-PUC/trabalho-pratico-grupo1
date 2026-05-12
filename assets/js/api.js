@@ -1,5 +1,5 @@
 import { env } from "/frontend/env.js";
-import { spinner, showModal } from "/frontend/assets/js/utils.js";
+import { spinner, showModal } from "/assets/js/utils.js";
 
 /**
   Futuramente alterar para api do backend pegando lista de cidades (enderecos) cadastradas, por enquanto usando api do nominatim

@@ -13,7 +13,7 @@ async function setComponentAsset(component, type) {
   const id = `${component}-${type}`;
   document.getElementById(id)?.remove();
 
-  const basePath = `/frontend/components/${component}/${component}`;
+  const basePath = `/components/${component}/${component}`;
 
   const config = {
     css: {
@@ -47,7 +47,7 @@ async function setComponentAsset(component, type) {
 
 export async function loadComponent(component) {
   const element = document.getElementById(component);
-  const path = `/frontend/components/${component}/${component}.html`;
+  const path = `/components/${component}/${component}.html`;
 
   if (!element) return;
 
@@ -118,7 +118,7 @@ function setAsset(path, type) {
 
 async function loadPage(page) {
   const element = document.getElementById("content");
-  const path = `/frontend/pages/${page}/${page}`;
+  const path = `/pages/${page}/${page}`;
 
   if (!element) return;
 

@@ -1,4 +1,4 @@
-@import "/frontend/assets/css/variables.css";
+@import "/assets/css/variables.css";
 
 .link,
 button {
@@ -7,7 +7,7 @@ button {
 }
 
 main {
-  padding: var(--spacing-xl) var(--spacing-xxl);
+  padding: var(--spacing-xxl) calc(2 * var(--spacing-xxl));
 }
 
 #loader {
@@ -129,7 +129,7 @@ main {
 
 /* Date picker */
 .flatpickr-calendar {
-  display: flex !important;
+  display: flex;
   flex-direction: column !important;
   gap: var(--spacing-lg) !important;
 
