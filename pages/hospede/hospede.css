@@ -1,0 +1,480 @@
+@import "/assets/css/variables.css";
+
+/* ---- Layout ---- */
+.hospede-dashboard {
+  display: flex;
+  gap: var(--spacing-xxl);
+  width: 100%;
+}
+
+/* ---- Sidebar ---- */
+.hospede-dashboard .sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  width: 20%;
+  user-select: none;
+  padding-top: var(--spacing-sm);
+}
+
+.hospede-dashboard .sidebar .item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-md);
+  cursor: pointer;
+}
+
+.hospede-dashboard .sidebar .item:hover {
+  background-color: var(--color-hover);
+}
+
+.hospede-dashboard .sidebar .item.selected {
+  background-color: var(--color-hover);
+}
+
+.hospede-dashboard .sidebar .item img {
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+/* ---- Content ---- */
+.hospede-dashboard .content {
+  width: 80%;
+}
+
+.hospede-dashboard .content > div {
+  display: none;
+}
+
+.hospede-dashboard .content > div.selected {
+  display: flex;
+}
+
+.hospede-dashboard .content h1 {
+  margin-bottom: var(--spacing-xxl);
+  color: var(--color-dark);
+  user-select: none;
+}
+
+/* ---- Meu Perfil ---- */
+.hospede-dashboard .content .meu-perfil {
+  flex-direction: column;
+}
+
+.hospede-dashboard .content .meu-perfil .host-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-xxl);
+  background: linear-gradient(135deg, rgba(160, 94, 209, 0.05) 0%, transparent 60%);
+}
+
+.host-avatar {
+  width: 4rem;
+  height: 4rem;
+  min-width: 4rem;
+  border-radius: var(--radius-circle);
+  background: var(--color-primary);
+  color: var(--color-background);
+  font-size: var(--font-lg);
+  font-weight: var(--font-bold);
+  font-family: var(--font-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.host-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.host-info h2 {
+  font-size: var(--font-lg);
+  font-weight: var(--font-bold);
+  color: var(--color-dark);
+}
+
+.host-role {
+  font-size: var(--font-sm);
+  color: var(--color-primary);
+  font-weight: var(--font-medium);
+  font-family: var(--font-primary);
+}
+
+.host-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-sm);
+  color: var(--color-text-light);
+  margin-top: var(--spacing-xs);
+}
+
+.meta-divider {
+  color: var(--color-border);
+}
+
+/* ---- Profile Form ---- */
+.hospede-dashboard .content .meu-perfil form {
+  display: flex;
+  gap: var(--spacing-xxl);
+}
+
+.hospede-dashboard .content .meu-perfil form h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  color: var(--color-dark);
+  user-select: none;
+  pointer-events: none;
+}
+
+.hospede-dashboard .content .meu-perfil form h3 img {
+  width: 20px;
+  height: 20px;
+}
+
+.hospede-dashboard .content .meu-perfil form .form-group {
+  display: flex;
+  align-items: center;
+}
+
+.hospede-dashboard .content .meu-perfil form .form-group label {
+  width: 25%;
+  color: var(--color-text-dark);
+  font-weight: var(--font-medium);
+}
+
+.hospede-dashboard .content .meu-perfil form .form-group input {
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  flex: 1;
+}
+
+.hospede-dashboard .content .meu-perfil form .form-group input.changed {
+  border-color: var(--color-primary);
+}
+
+.hospede-dashboard .content .meu-perfil form .dados-pessoais,
+.hospede-dashboard .content .meu-perfil form .endereco {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.hospede-dashboard .content .meu-perfil .buttons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xxl);
+}
+
+.hospede-dashboard .content .meu-perfil .buttons button {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-md);
+  cursor: pointer;
+}
+
+.hospede-dashboard .content .meu-perfil .buttons button:hover:not(:disabled) {
+  opacity: 0.6;
+}
+
+.hospede-dashboard .content .meu-perfil .buttons button.reset {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.hospede-dashboard .content .meu-perfil .buttons button.save {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+}
+
+.hospede-dashboard .content .meu-perfil .buttons button.save:disabled {
+  background-color: var(--color-hover);
+  cursor: not-allowed;
+}
+
+/* ---- Meus Quartos ---- */
+.hospede-dashboard .content .meus-quartos {
+  flex-direction: column;
+  width: 100%;
+}
+
+.quartos-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xxl);
+}
+
+.quartos-header h1 {
+  margin-bottom: 0;
+}
+
+.btn-add {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-primary);
+  color: var(--color-background);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
+  font-family: var(--font-primary);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-add:hover {
+  opacity: 0.85;
+}
+
+.quartos-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.quarto-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.quarto-card h3 {
+  color: var(--color-dark);
+  user-select: none;
+}
+
+.quarto-card p {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--color-text-dark);
+  font-size: var(--font-md);
+  user-select: none;
+}
+
+.quarto-card .preco {
+  font-weight: var(--font-medium);
+  color: var(--color-dark);
+}
+
+.quarto-card span.status {
+  width: fit-content;
+  text-align: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-xs);
+  user-select: none;
+}
+
+.quarto-card span.disponivel {
+  background-color: var(--color-terciary);
+  color: var(--color-background);
+}
+
+.quarto-card span.ocupado {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+}
+
+.quarto-card button {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-background);
+  color: var(--color-dark);
+  font-size: var(--font-sm);
+  cursor: pointer;
+}
+
+.quarto-card button:hover {
+  background-color: var(--color-hover);
+}
+
+/* ---- Reservas ---- */
+.hospede-dashboard .content .reservas {
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.reservas-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.reserva-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.reserva-card h3 {
+  color: var(--color-dark);
+  user-select: none;
+}
+
+.reserva-card p {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--color-text-dark);
+  font-size: var(--font-md);
+  user-select: none;
+}
+
+.reserva-card span {
+  width: fit-content;
+  text-align: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-xs);
+  user-select: none;
+}
+
+.reserva-card span.reservado {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+}
+
+.reserva-card span.em_andamento {
+  background-color: var(--color-secondary);
+  color: var(--color-text-dark);
+}
+
+.reserva-card span.concluido {
+  background-color: var(--color-terciary);
+  color: var(--color-background);
+}
+
+.reserva-card span.cancelado {
+  background-color: var(--color-gray);
+  color: var(--color-background);
+}
+
+.reserva-card button {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-background);
+  color: var(--color-dark);
+  font-size: var(--font-sm);
+  cursor: pointer;
+}
+
+.reserva-card button:hover {
+  background-color: var(--color-hover);
+}
+
+/* ---- Pagamentos ---- */
+.hospede-dashboard .content .pagamentos {
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.pagamentos-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.pagamento-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.pagamento-card h3 {
+  color: var(--color-dark);
+  user-select: none;
+}
+
+.pagamento-card p {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--color-text-dark);
+  font-size: var(--font-md);
+  user-select: none;
+}
+
+.pagamento-card span {
+  width: fit-content;
+  text-align: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-xs);
+  user-select: none;
+}
+
+.pagamento-card span.pendente {
+  background-color: var(--color-secondary);
+  color: var(--color-dark);
+}
+
+.pagamento-card span.pago {
+  background-color: var(--color-terciary);
+  color: var(--color-background);
+}
+
+.pagamento-card span.cancelado {
+  background-color: var(--color-gray);
+  color: var(--color-background);
+}
+
+/* ---- Empty states ---- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--color-text-light);
+  font-size: var(--font-md);
+  user-select: none;
+  padding: var(--spacing-xxl) 0;
+  width: 100%;
+}
+
+.empty-state img {
+  width: 48px;
+  height: 48px;
+  pointer-events: none;
+  opacity: 0.4;
+}
