@@ -33,9 +33,10 @@ O ReservasJá é um sistema desenvolvido para modernizar e escalar o processo de
 
 ## Telas
 
-![Tela login](docs/screens/reservasja-tela-login.png)
 
 ![Tela home](docs/screens/reservasja-pagina-home.png)
+
+![Tela login](docs/screens/reservasja-tela-login.png)
 
 ![Tela hospede](docs/screens/reservasja-pagina-hospede.png)
 
