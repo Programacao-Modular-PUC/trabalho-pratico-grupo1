@@ -30,6 +30,10 @@ public class Aluguel {
     @JoinColumn(name = "residencia_id", nullable = false)
     private Residencia residencia;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pagamento_id", referencedColumnName = "id")
+    private Pagamento pagamento;
+
     private LocalDateTime dataPrevistaEntrada;
     private LocalDateTime dataPrevistaSaida;
     private LocalDateTime dataRealEntrada;
