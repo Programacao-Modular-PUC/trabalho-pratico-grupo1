@@ -90,7 +90,7 @@ public class AluguelService {
     public List<Aluguel> buscarHistoricoCliente(Long clienteId) {
         List<Aluguel> historico = repository.findByClienteId(clienteId);
         if (historico.isEmpty()) {
-            throw new RecursoNaoEncontradoException("Nenhum aluguel encontrado para o cliente", clienteId);
+            throw new RecursoNaoEncontradoException("Aluguel do cliente", clienteId);
         }
         return historico;
     }
