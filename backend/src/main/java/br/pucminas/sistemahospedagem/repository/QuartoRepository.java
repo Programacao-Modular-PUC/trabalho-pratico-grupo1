@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface QuartoRepository extends JpaRepository<Quarto, Long> {
     List<Quarto> findByResidenciaId(Long residenciaId);
+    List<Quarto> findByClass(Class<? extends Quarto> tipo);
 }

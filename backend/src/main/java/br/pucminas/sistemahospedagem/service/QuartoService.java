@@ -33,6 +33,16 @@ public class QuartoService {
         return quartoRepository.findByResidenciaId(residenciaId);
     }
 
+    public List<Quarto> buscarPorTipo(String tipo) {
+        if (tipo.equalsIgnoreCase("INDIVIDUAL")) {
+            return quartoRepository.findByClass(QuartoIndividual.class);
+        } else if (tipo.equalsIgnoreCase("CASAL")) {
+            return quartoRepository.findByClass(QuartoCasal.class);
+        } else {
+            throw new RecursoNaoPermitidoException("Tipo inválido");
+        }
+    }
+
     public Quarto criar(QuartoRequestDTO dto) {
         var residencia = residenciaRepository.findById(dto.residenciaId())
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Residência com ID " + dto.residenciaId() + " não encontrada."));
