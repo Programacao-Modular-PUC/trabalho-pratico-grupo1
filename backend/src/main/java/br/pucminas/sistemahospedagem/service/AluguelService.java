@@ -1,15 +1,19 @@
 package br.pucminas.sistemahospedagem.service;
 
+import br.pucminas.sistemahospedagem.exception.*;
 import br.pucminas.sistemahospedagem.model.Aluguel;
 import br.pucminas.sistemahospedagem.model.Pagamento;
-import br.pucminas.sistemahospedagem.model.enums.StatusPagamento;
 import br.pucminas.sistemahospedagem.model.enums.StatusAluguel;
+import br.pucminas.sistemahospedagem.model.enums.StatusPagamento;
 import br.pucminas.sistemahospedagem.repository.AluguelRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class AluguelService {
+
     private final AluguelRepository repository;
 
     public AluguelService(AluguelRepository repository) {
@@ -17,27 +21,28 @@ public class AluguelService {
     }
 
     public Aluguel criar(Aluguel aluguel) {
-        // 1. Calcula os valores e diárias usando a regra da classe Aluguel
-        aluguel.calcularValorFinal(); 
+        validarDatas(aluguel.getDataPrevistaEntrada(), aluguel.getDataPrevistaSaida());
+        validarDisponibilidade(aluguel);
+        validarCapacidade(aluguel);
+
+        aluguel.calcularValorFinal();
         aluguel.setStatus(StatusAluguel.RESERVADO);
-        
-        // 2. Cria o pagamento pendente atrelado
+
         Pagamento pag = new Pagamento();
         pag.setValor(aluguel.getValorFinal());
         pag.setStatus(StatusPagamento.PENDENTE);
         aluguel.setPagamento(pag);
-        
-        // O CascadeType.ALL na entidade Aluguel vai salvar o pagamento automaticamente
+
         return repository.save(aluguel);
     }
 
-    public List<Aluguel> listar() { 
-        return repository.findAll(); 
+    public List<Aluguel> listar() {
+        return repository.findAll();
     }
 
     public Aluguel buscarPorId(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Aluguel não encontrado com o ID: " + id));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Aluguel", id));
     }
 
     public Aluguel confirmarPagamento(Long id) {
@@ -51,24 +56,78 @@ public class AluguelService {
 
     public Aluguel checkIn(Long id) {
         Aluguel a = buscarPorId(id);
-        a.realizarCheckIn(); // Usa o método que você me mostrou
+        if (a.getStatus() != StatusAluguel.RESERVADO) {
+            throw new DataInvalidaException(
+                    "Check-in não permitido: status atual é " + a.getStatus() + ". Esperado: RESERVADO."
+            );
+        }
+        a.realizarCheckIn();
         return repository.save(a);
     }
 
     public Aluguel checkOut(Long id) {
         Aluguel a = buscarPorId(id);
-        a.realizarCheckOut(); // Usa o método que você me mostrou
+        if (a.getStatus() != StatusAluguel.EM_ANDAMENTO) {
+            throw new DataInvalidaException(
+                    "Check-out não permitido: status atual é " + a.getStatus() + ". Esperado: EM_ANDAMENTO."
+            );
+        }
+        a.realizarCheckOut();
         return repository.save(a);
     }
 
     public Aluguel cancelar(Long id) {
         Aluguel a = buscarPorId(id);
-        a.cancelarReserva(); // Usa o método que você me mostrou
+        if (a.getStatus() == StatusAluguel.CONCLUIDO || a.getStatus() == StatusAluguel.CANCELADO) {
+            throw new DataInvalidaException(
+                    "Não é possível cancelar um aluguel com status: " + a.getStatus() + "."
+            );
+        }
+        a.cancelarReserva();
         return repository.save(a);
     }
 
+    public List<Aluguel> buscarHistoricoCliente(Long clienteId) {
+        List<Aluguel> historico = repository.findByClienteId(clienteId);
+        if (historico.isEmpty()) {
+            throw new RecursoNaoEncontradoException("Aluguel do cliente", clienteId);
+        }
+        return historico;
+    }
+
     public String emitirRecibo(Long id) {
-        Aluguel a = buscarPorId(id);
-        return a.gerarRecibo(); // Usa o método que você me mostrou
+        return buscarPorId(id).gerarRecibo();
+    }
+
+    // --- Validações privadas ---
+
+    private void validarDatas(LocalDateTime entrada, LocalDateTime saida) {
+        if (entrada == null || saida == null) {
+            throw new DataInvalidaException("As datas de entrada e saída são obrigatórias.");
+        }
+        if (!saida.isAfter(entrada)) {
+            throw new DataInvalidaException("A data de saída deve ser posterior à data de entrada.");
+        }
+        if (entrada.isBefore(LocalDateTime.now())) {
+            throw new DataInvalidaException("A data de entrada não pode ser no passado.");
+        }
+    }
+
+    private void validarDisponibilidade(Aluguel aluguel) {
+        boolean conflito = repository.existeConflitoDeDatas(
+                aluguel.getQuarto().getId(),
+                aluguel.getDataPrevistaEntrada(),
+                aluguel.getDataPrevistaSaida()
+        );
+        if (conflito) {
+            throw new QuartoIndisponivelException(aluguel.getQuarto().getId());
+        }
+    }
+
+    private void validarCapacidade(Aluguel aluguel) {
+        int capacidade = aluguel.getQuarto().getCapacidadeMaxima();
+        if (aluguel.getNumeroHospedes() > capacidade) {
+            throw new CapacidadeExcedidaException(aluguel.getNumeroHospedes(), capacidade);
+        }
     }
 }

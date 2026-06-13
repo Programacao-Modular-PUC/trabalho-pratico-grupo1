@@ -1,5 +1,5 @@
 package br.pucminas.sistemahospedagem.model;
-
+import br.pucminas.sistemahospedagem.exception.RecursoNaoPermitidoException;
 import br.pucminas.sistemahospedagem.model.enums.TipoCamaCasal;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -46,7 +46,7 @@ public class QuartoCasal extends br.pucminas.sistemahospedagem.model.Quarto {
 
     public boolean validarSolicitacaoBerco(boolean bercoSolicitado) {
         if (bercoSolicitado && !bercoInstalado) {
-            throw new IllegalStateException("Berço não disponível neste quarto.");
+            throw new RecursoNaoPermitidoException("berço", "Quarto Casal sem berço instalado");
         }
         return true;
     }

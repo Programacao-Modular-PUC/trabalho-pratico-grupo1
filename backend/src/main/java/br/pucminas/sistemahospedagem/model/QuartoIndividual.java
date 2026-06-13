@@ -1,5 +1,5 @@
 package br.pucminas.sistemahospedagem.model;
-
+import br.pucminas.sistemahospedagem.exception.RecursoNaoPermitidoException;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -28,5 +28,11 @@ public class QuartoIndividual extends br.pucminas.sistemahospedagem.model.Quarto
     @Override
     public boolean validarCapacidade(int numHospedes) {
         return numHospedes <= numeroCamasSolteiro;
+    }
+
+    public void validarSolicitacaoBerco(boolean bercoSolicitado) {
+        if (bercoSolicitado) {
+            throw new RecursoNaoPermitidoException("berço", "Quarto Individual");
+        }
     }
 }
