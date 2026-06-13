@@ -1,12 +1,13 @@
 package br.pucminas.sistemahospedagem.service;
 
 import br.pucminas.sistemahospedagem.dto.residencia.ResidenciaRequestDTO;
+import br.pucminas.sistemahospedagem.exception.EntidadeNaoEncontradaException;
+import br.pucminas.sistemahospedagem.exception.DataInvalidaException;
 import br.pucminas.sistemahospedagem.model.Anfitriao;
 import br.pucminas.sistemahospedagem.model.Residencia;
 import br.pucminas.sistemahospedagem.model.Quarto;
 import br.pucminas.sistemahospedagem.repository.ResidenciaRepository;
 import br.pucminas.sistemahospedagem.repository.AnfitriaoRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +27,12 @@ public class ResidenciaService {
 
     public Residencia buscarPorId(Long id) {
         return residenciaRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Residência não encontrada"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Residência com ID " + id + " não encontrada."));
     }
 
     public Residencia criar(ResidenciaRequestDTO dto) {
         Anfitriao anfitriao = anfitriaoRepository.findById(dto.anfitriaoId())
-                .orElseThrow(() -> new EntityNotFoundException("Anfitrião não encontrado"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Anfitrião com ID " + dto.anfitriaoId() + " não encontrado."));
 
         Residencia residencia = new Residencia();
         residencia.setTelefone(dto.telefone());
@@ -51,7 +52,7 @@ public class ResidenciaService {
 
         if (dto.anfitriaoId() != null) {
             Anfitriao anfitriao = anfitriaoRepository.findById(dto.anfitriaoId())
-                    .orElseThrow(() -> new EntityNotFoundException("Anfitrião não encontrado"));
+                    .orElseThrow(() -> new EntidadeNaoEncontradaException("Anfitrião com ID " + dto.anfitriaoId() + " não encontrado."));
             residencia.setAnfitriao(anfitriao);
         }
 
@@ -59,7 +60,8 @@ public class ResidenciaService {
     }
 
     public void deletar(Long id) {
-        residenciaRepository.deleteById(id);
+        Residencia existente = buscarPorId(id); // Valida se existe antes de deletar
+        residenciaRepository.delete(existente);
     }
 
     public String gerarRelatorio(Long id, int mes) {
@@ -68,6 +70,9 @@ public class ResidenciaService {
     }
 
     public List<Quarto> buscarQuartosLivres(Long id, LocalDateTime inicio, LocalDateTime fim) {
+        if (inicio != null && fim != null && inicio.isAfter(fim)) {
+            throw new DataInvalidaException("A data de início não pode ser depois da data de fim.");
+        }
         Residencia residencia = buscarPorId(id);
         return residencia.buscarQuartosLivres(inicio, fim);
     }
