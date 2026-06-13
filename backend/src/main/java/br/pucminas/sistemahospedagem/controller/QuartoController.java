@@ -6,6 +6,7 @@ import br.pucminas.sistemahospedagem.model.Quarto;
 import br.pucminas.sistemahospedagem.service.QuartoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,31 +26,20 @@ public class QuartoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<QuartoResponseDTO> buscarPorId(@PathVariable Long id) {
-        try {
-            Quarto q = service.buscarPorId(id);
-            return ResponseEntity.ok(QuartoResponseDTO.fromEntity(q));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        Quarto q = service.buscarPorId(id);
+        return ResponseEntity.ok(QuartoResponseDTO.fromEntity(q));
     }
 
     @PostMapping
     public ResponseEntity<QuartoResponseDTO> criar(@Valid @RequestBody QuartoRequestDTO dto) {
         Quarto criado = service.criar(dto);
-        return ResponseEntity.status(201).body(QuartoResponseDTO.fromEntity(criado));
+        return ResponseEntity.status(HttpStatus.CREATED).body(QuartoResponseDTO.fromEntity(criado));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<QuartoResponseDTO> atualizar(@PathVariable Long id,
-                                                      @Valid @RequestBody QuartoRequestDTO dto) {
-        try {
-            Quarto atualizado = service.atualizar(id, dto);
-            return ResponseEntity.ok(QuartoResponseDTO.fromEntity(atualizado));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<QuartoResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody QuartoRequestDTO dto) {
+        Quarto atualizado = service.atualizar(id, dto);
+        return ResponseEntity.ok(QuartoResponseDTO.fromEntity(atualizado));
     }
 
     @DeleteMapping("/{id}")

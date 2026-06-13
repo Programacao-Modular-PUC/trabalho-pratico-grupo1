@@ -1,12 +1,13 @@
 package br.pucminas.sistemahospedagem.service;
 
 import br.pucminas.sistemahospedagem.dto.quarto.QuartoRequestDTO;
+import br.pucminas.sistemahospedagem.exception.EntidadeNaoEncontradaException;
+import br.pucminas.sistemahospedagem.exception.RecursoNaoPermitidoException;
 import br.pucminas.sistemahospedagem.model.Quarto;
 import br.pucminas.sistemahospedagem.model.QuartoCasal;
 import br.pucminas.sistemahospedagem.model.QuartoIndividual;
 import br.pucminas.sistemahospedagem.repository.QuartoRepository;
 import br.pucminas.sistemahospedagem.repository.ResidenciaRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class QuartoService {
 
     public Quarto buscarPorId(Long id) {
         return quartoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Quarto não encontrado"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Quarto com ID " + id + " não encontrado."));
     }
 
     public List<Quarto> buscarPorResidencia(Long residenciaId) {
@@ -34,7 +35,7 @@ public class QuartoService {
 
     public Quarto criar(QuartoRequestDTO dto) {
         var residencia = residenciaRepository.findById(dto.residenciaId())
-                .orElseThrow(() -> new EntityNotFoundException("Residência não encontrada"));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Residência com ID " + dto.residenciaId() + " não encontrada."));
 
         Quarto quarto;
         String tipo = dto.tipo().toUpperCase();
@@ -57,20 +58,18 @@ public class QuartoService {
             qc.setValorAdicionalConforto(dto.valorAdicionalConforto() != null ? dto.valorAdicionalConforto() : 0.0);
             quarto = qc;
         } else {
-            throw new IllegalArgumentException("Tipo de quarto inválido");
+            throw new RecursoNaoPermitidoException("Tipo de quarto inválido. Escolha INDIVIDUAL ou CASAL.");
         }
 
         quarto.setResidencia(residencia);
-
         return quartoRepository.save(quarto);
     }
 
     public Quarto atualizar(Long id, QuartoRequestDTO dto) {
         Quarto existente = buscarPorId(id);
 
-        // não permite mudança de tipo para simplificar
         if (dto.tipo() != null && !dto.tipo().equalsIgnoreCase(getTipoParaEntity(existente))) {
-            throw new IllegalArgumentException("Não é permitido alterar o tipo do quarto");
+            throw new RecursoNaoPermitidoException("Não é permitido alterar o tipo de um quarto já criado.");
         }
 
         existente.setNumero(dto.numero() != null ? dto.numero() : existente.getNumero());
@@ -79,7 +78,7 @@ public class QuartoService {
 
         if (dto.residenciaId() != null) {
             var residencia = residenciaRepository.findById(dto.residenciaId())
-                    .orElseThrow(() -> new EntityNotFoundException("Residência não encontrada"));
+                    .orElseThrow(() -> new EntidadeNaoEncontradaException("Residência com ID " + dto.residenciaId() + " não encontrada."));
             existente.setResidencia(residencia);
         }
 
@@ -97,7 +96,8 @@ public class QuartoService {
     }
 
     public void deletar(Long id) {
-        quartoRepository.deleteById(id);
+        Quarto existente = buscarPorId(id); // Garante que existe antes de deletar
+        quartoRepository.delete(existente);
     }
 
     private String getTipoParaEntity(Quarto q) {
