@@ -52,6 +52,8 @@ public class Aluguel {
 
         if (quarto instanceof QuartoCasal quartoCasal) {
             quartoCasal.validarSolicitacaoBerco(bercoSolicitado);
+        } else if (quarto instanceof QuartoIndividual quartoIndividual) {
+            quartoIndividual.validarSolicitacaoBerco(bercoSolicitado);
         }
 
         double valorDiaria = quarto.calcularValorDiaria(numeroHospedes);
