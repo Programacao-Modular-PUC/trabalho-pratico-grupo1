@@ -16,11 +16,13 @@ public class ReservaCriadaEvent extends AluguelEvent {
     @Override
     public String getMensagem() {
         Aluguel a = getAluguel();
+        String nomeCliente = a.getCliente() != null ? a.getCliente().getNome() : "Cliente";
+        int numQuarto = a.getQuarto() != null ? a.getQuarto().getNumero() : 0;
         return String.format(
                 "Olá, %s! Sua reserva foi criada com sucesso. " +
                         "Quarto %d | Entrada: %s | Saída: %s | Valor: R$ %.2f",
-                a.getCliente().getNome(),
-                a.getQuarto().getNumero(),
+                nomeCliente,
+                numQuarto,
                 a.getDataPrevistaEntrada(),
                 a.getDataPrevistaSaida(),
                 a.getValorFinal()

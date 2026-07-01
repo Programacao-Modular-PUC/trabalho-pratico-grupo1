@@ -16,11 +16,13 @@ public class CheckInEvent extends AluguelEvent {
     @Override
     public String getMensagem() {
         Aluguel a = getAluguel();
+        String nomeCliente = a.getCliente() != null ? a.getCliente().getNome() : "Cliente";
+        int numQuarto = a.getQuarto() != null ? a.getQuarto().getNumero() : 0;
         return String.format(
                 "Check-in realizado! Bem-vindo(a), %s. " +
                         "Quarto %d | Saída prevista: %s",
-                a.getCliente().getNome(),
-                a.getQuarto().getNumero(),
+                nomeCliente,
+                numQuarto,
                 a.getDataPrevistaSaida()
         );
     }

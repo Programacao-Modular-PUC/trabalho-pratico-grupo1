@@ -16,11 +16,13 @@ public class ReservaCanceladaEvent extends AluguelEvent {
     @Override
     public String getMensagem() {
         Aluguel a = getAluguel();
+        String nomeCliente = a.getCliente() != null ? a.getCliente().getNome() : "Cliente";
+        int numQuarto = a.getQuarto() != null ? a.getQuarto().getNumero() : 0;
         return String.format(
                 "Olá, %s. Sua reserva do quarto %d foi cancelada. " +
                         "Se tiver dúvidas, entre em contato conosco.",
-                a.getCliente().getNome(),
-                a.getQuarto().getNumero()
+                nomeCliente,
+                numQuarto
         );
     }
 }

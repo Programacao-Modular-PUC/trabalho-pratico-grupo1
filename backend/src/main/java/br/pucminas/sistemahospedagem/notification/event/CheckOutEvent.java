@@ -16,10 +16,11 @@ public class CheckOutEvent extends AluguelEvent {
     @Override
     public String getMensagem() {
         Aluguel a = getAluguel();
+        String nomeCliente = a.getCliente() != null ? a.getCliente().getNome() : "Cliente";
         return String.format(
                 "Check-out realizado. Obrigado pela sua estadia, %s! " +
                         "Valor cobrado: R$ %.2f. Esperamos vê-lo(a) novamente.",
-                a.getCliente().getNome(),
+                nomeCliente,
                 a.getValorFinal()
         );
     }

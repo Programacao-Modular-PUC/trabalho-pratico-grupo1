@@ -16,12 +16,14 @@ public class PagamentoConfirmadoEvent extends AluguelEvent {
     @Override
     public String getMensagem() {
         Aluguel a = getAluguel();
+        String nomeCliente = a.getCliente() != null ? a.getCliente().getNome() : "Cliente";
+        int numQuarto = a.getQuarto() != null ? a.getQuarto().getNumero() : 0;
         return String.format(
                 "Pagamento confirmado! %s, recebemos seu pagamento de R$ %.2f " +
                         "referente à reserva do quarto %d.",
-                a.getCliente().getNome(),
+                nomeCliente,
                 a.getValorFinal(),
-                a.getQuarto().getNumero()
+                numQuarto
         );
     }
 }
