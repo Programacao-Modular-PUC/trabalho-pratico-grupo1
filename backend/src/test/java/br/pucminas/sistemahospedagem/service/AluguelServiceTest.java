@@ -1,12 +1,16 @@
 package br.pucminas.sistemahospedagem.service;
+
 import br.pucminas.sistemahospedagem.exception.*;
 import br.pucminas.sistemahospedagem.model.*;
+import br.pucminas.sistemahospedagem.model.enums.StatusAluguel;
 import br.pucminas.sistemahospedagem.notification.dispatcher.NotificacaoDispatcher;
+import br.pucminas.sistemahospedagem.notification.event.*;
 import br.pucminas.sistemahospedagem.repository.AluguelRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -14,15 +18,17 @@ import static org.mockito.Mockito.*;
 class AluguelServiceTest {
 
     private AluguelRepository repository;
-    private NotificacaoDispatcher dispatcher;  // ← adicionar
+    private NotificacaoDispatcher dispatcher;
     private AluguelService service;
 
     @BeforeEach
     void setup() {
         repository = mock(AluguelRepository.class);
-        dispatcher = mock(NotificacaoDispatcher.class);  // ← adicionar
-        service = new AluguelService(repository, dispatcher);  // ← passar os dois
+        dispatcher = mock(NotificacaoDispatcher.class);
+        service = new AluguelService(repository, dispatcher);
     }
+
+    // --- testes existentes ---
 
     @Test
     void deveLancarErroQuandoExcedeCapacidade() {
@@ -60,9 +66,8 @@ class AluguelServiceTest {
     @Test
     void deveLancarErroQuandoDatasInvalidas() {
         Aluguel aluguel = new Aluguel();
-
         aluguel.setDataPrevistaEntrada(LocalDateTime.now().plusDays(2));
-        aluguel.setDataPrevistaSaida(LocalDateTime.now().plusDays(1)); // saída antes
+        aluguel.setDataPrevistaSaida(LocalDateTime.now().plusDays(1));
 
         assertThrows(DataInvalidaException.class, () -> service.criar(aluguel));
     }
@@ -87,5 +92,61 @@ class AluguelServiceTest {
 
         assertNotNull(resultado.getPagamento());
         assertEquals(200.0, resultado.getValorFinal());
+        verify(dispatcher).despachar(any(ReservaCriadaEvent.class));
+    }
+
+    // --- testes novos de notificação ---
+
+    @Test
+    void deveDespacharEventoAoConfirmarPagamento() {
+        Aluguel aluguel = new Aluguel();
+        Pagamento pag = new Pagamento();
+        aluguel.setPagamento(pag);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(aluguel));
+        when(repository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        service.confirmarPagamento(1L);
+
+        verify(dispatcher).despachar(any(PagamentoConfirmadoEvent.class));
+    }
+
+    @Test
+    void deveDespacharEventoAoRealizarCheckIn() {
+        Aluguel aluguel = new Aluguel();
+        aluguel.setStatus(StatusAluguel.RESERVADO);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(aluguel));
+        when(repository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        service.checkIn(1L);
+
+        verify(dispatcher).despachar(any(CheckInEvent.class));
+    }
+
+    @Test
+    void deveDespacharEventoAoRealizarCheckOut() {
+        Aluguel aluguel = new Aluguel();
+        aluguel.setStatus(StatusAluguel.EM_ANDAMENTO);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(aluguel));
+        when(repository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        service.checkOut(1L);
+
+        verify(dispatcher).despachar(any(CheckOutEvent.class));
+    }
+
+    @Test
+    void deveDespacharEventoAoCancelar() {
+        Aluguel aluguel = new Aluguel();
+        aluguel.setStatus(StatusAluguel.RESERVADO);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(aluguel));
+        when(repository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        service.cancelar(1L);
+
+        verify(dispatcher).despachar(any(ReservaCanceladaEvent.class));
     }
 }
