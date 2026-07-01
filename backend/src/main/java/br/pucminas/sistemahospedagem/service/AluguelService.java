@@ -1,23 +1,34 @@
 package br.pucminas.sistemahospedagem.service;
 
-import br.pucminas.sistemahospedagem.exception.*;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import br.pucminas.sistemahospedagem.exception.CapacidadeExcedidaException;
+import br.pucminas.sistemahospedagem.exception.DataInvalidaException;
+import br.pucminas.sistemahospedagem.exception.QuartoIndisponivelException;
+import br.pucminas.sistemahospedagem.exception.RecursoNaoEncontradoException;
 import br.pucminas.sistemahospedagem.model.Aluguel;
 import br.pucminas.sistemahospedagem.model.Pagamento;
 import br.pucminas.sistemahospedagem.model.enums.StatusAluguel;
 import br.pucminas.sistemahospedagem.model.enums.StatusPagamento;
+import br.pucminas.sistemahospedagem.model.tarifacao.TarifacaoContext;
 import br.pucminas.sistemahospedagem.repository.AluguelRepository;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class AluguelService {
 
     private final AluguelRepository repository;
+    private final TarifacaoContext tarifacaoContext;
 
     public AluguelService(AluguelRepository repository) {
+        this(repository, new TarifacaoContext());
+    }
+
+    public AluguelService(AluguelRepository repository, TarifacaoContext tarifacaoContext) {
         this.repository = repository;
+        this.tarifacaoContext = tarifacaoContext != null ? tarifacaoContext : new TarifacaoContext();
     }
 
     public Aluguel criar(Aluguel aluguel) {
@@ -25,6 +36,7 @@ public class AluguelService {
         validarDisponibilidade(aluguel);
         validarCapacidade(aluguel);
 
+        aluguel.getQuarto().setTarifacaoContext(tarifacaoContext);
         aluguel.calcularValorFinal();
         aluguel.setStatus(StatusAluguel.RESERVADO);
 
