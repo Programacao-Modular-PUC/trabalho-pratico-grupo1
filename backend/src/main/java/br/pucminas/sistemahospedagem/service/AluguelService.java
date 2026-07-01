@@ -5,6 +5,8 @@ import br.pucminas.sistemahospedagem.model.Aluguel;
 import br.pucminas.sistemahospedagem.model.Pagamento;
 import br.pucminas.sistemahospedagem.model.enums.StatusAluguel;
 import br.pucminas.sistemahospedagem.model.enums.StatusPagamento;
+import br.pucminas.sistemahospedagem.notification.dispatcher.NotificacaoDispatcher;
+import br.pucminas.sistemahospedagem.notification.event.*;
 import br.pucminas.sistemahospedagem.repository.AluguelRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +17,11 @@ import java.util.List;
 public class AluguelService {
 
     private final AluguelRepository repository;
+    private final NotificacaoDispatcher dispatcher;
 
-    public AluguelService(AluguelRepository repository) {
+    public AluguelService(AluguelRepository repository, NotificacaoDispatcher dispatcher) {
         this.repository = repository;
+        this.dispatcher = dispatcher;
     }
 
     public Aluguel criar(Aluguel aluguel) {
@@ -33,7 +37,9 @@ public class AluguelService {
         pag.setStatus(StatusPagamento.PENDENTE);
         aluguel.setPagamento(pag);
 
-        return repository.save(aluguel);
+        Aluguel salvo = repository.save(aluguel);
+        dispatcher.despachar(new ReservaCriadaEvent(salvo));
+        return salvo;
     }
 
     public List<Aluguel> listar() {
@@ -51,7 +57,9 @@ public class AluguelService {
             a.getPagamento().setStatus(StatusPagamento.PAGO);
             a.getPagamento().setDataPagamento(java.time.LocalDate.now());
         }
-        return repository.save(a);
+        Aluguel salvo = repository.save(a);
+        dispatcher.despachar(new PagamentoConfirmadoEvent(salvo));
+        return salvo;
     }
 
     public Aluguel checkIn(Long id) {
@@ -62,7 +70,9 @@ public class AluguelService {
             );
         }
         a.realizarCheckIn();
-        return repository.save(a);
+        Aluguel salvo = repository.save(a);
+        dispatcher.despachar(new CheckInEvent(salvo));
+        return salvo;
     }
 
     public Aluguel checkOut(Long id) {
@@ -73,7 +83,9 @@ public class AluguelService {
             );
         }
         a.realizarCheckOut();
-        return repository.save(a);
+        Aluguel salvo = repository.save(a);
+        dispatcher.despachar(new CheckOutEvent(salvo));
+        return salvo;
     }
 
     public Aluguel cancelar(Long id) {
@@ -84,7 +96,9 @@ public class AluguelService {
             );
         }
         a.cancelarReserva();
-        return repository.save(a);
+        Aluguel salvo = repository.save(a);
+        dispatcher.despachar(new ReservaCanceladaEvent(salvo));
+        return salvo;
     }
 
     public List<Aluguel> buscarHistoricoCliente(Long clienteId) {

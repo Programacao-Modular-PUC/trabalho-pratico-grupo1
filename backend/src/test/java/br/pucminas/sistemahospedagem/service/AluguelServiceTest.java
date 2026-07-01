@@ -1,7 +1,7 @@
 package br.pucminas.sistemahospedagem.service;
-
 import br.pucminas.sistemahospedagem.exception.*;
 import br.pucminas.sistemahospedagem.model.*;
+import br.pucminas.sistemahospedagem.notification.dispatcher.NotificacaoDispatcher;
 import br.pucminas.sistemahospedagem.repository.AluguelRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,12 +14,14 @@ import static org.mockito.Mockito.*;
 class AluguelServiceTest {
 
     private AluguelRepository repository;
+    private NotificacaoDispatcher dispatcher;  // ← adicionar
     private AluguelService service;
 
     @BeforeEach
     void setup() {
         repository = mock(AluguelRepository.class);
-        service = new AluguelService(repository);
+        dispatcher = mock(NotificacaoDispatcher.class);  // ← adicionar
+        service = new AluguelService(repository, dispatcher);  // ← passar os dois
     }
 
     @Test
