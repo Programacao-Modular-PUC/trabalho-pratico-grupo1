@@ -29,6 +29,11 @@ public class AluguelController {
         return ResponseEntity.ok(service.listar());
     }
 
+    @GetMapping("/cliente/{clienteId}")
+    public ResponseEntity<List<Aluguel>> historicoPorCliente(@PathVariable Long clienteId) {
+        return ResponseEntity.ok(service.buscarHistoricoCliente(clienteId));
+    }
+
     @PutMapping("/{id}/pagar")
     public ResponseEntity<Aluguel> pagar(@PathVariable Long id) { 
         return ResponseEntity.ok(service.confirmarPagamento(id));

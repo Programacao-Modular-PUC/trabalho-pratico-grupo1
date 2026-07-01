@@ -30,6 +30,16 @@ public class QuartoController {
         return ResponseEntity.ok(QuartoResponseDTO.fromEntity(q));
     }
 
+    @GetMapping("/tipo/{tipo}")
+    public ResponseEntity<List<QuartoResponseDTO>> buscarPorTipo(@PathVariable String tipo) {
+        return ResponseEntity.ok(
+                service.buscarPorTipo(tipo)
+                        .stream()
+                        .map(QuartoResponseDTO::fromEntity)
+                        .toList()
+        );
+    }
+
     @PostMapping
     public ResponseEntity<QuartoResponseDTO> criar(@Valid @RequestBody QuartoRequestDTO dto) {
         Quarto criado = service.criar(dto);
