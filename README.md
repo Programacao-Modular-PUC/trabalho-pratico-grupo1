@@ -42,5 +42,25 @@ O ReservasJá é um sistema desenvolvido para modernizar e escalar o processo de
 
 ![Tela anfitrião](docs/screens/reservasja-pagina-anfitriao.png)
 
+---
 
+## Soluções Arquiteturais
+
+### Singleton
+
+O padrão Singleton foi aplicado na classe ConfiguracaoGlobalSistema para centralizar as regras globais do sistema.
+
+A existência de múltiplas instâncias dessa configuração poderia gerar inconsistências, como diferentes regras de cálculo sendo aplicadas simultaneamente em partes distintas do sistema.
+
+O Singleton garante que todas as classes compartilhem a mesma instância de configuração, promovendo:
+
+- Consistência nas regras de negócio
+- Facilidade de manutenção
+- Alterações centralizadas
+
+Isso resolve o problema de duplicação de regras e evita divergências no comportamento do sistema.
+
+### Strategy
+
+### Observer
 
