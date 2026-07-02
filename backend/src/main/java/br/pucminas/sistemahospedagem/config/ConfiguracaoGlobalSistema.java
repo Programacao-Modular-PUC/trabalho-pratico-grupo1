@@ -11,4 +11,7 @@ import org.springframework.stereotype.Component;
 @Setter
 public class ConfiguracaoGlobalSistema {
     private int checkoutHora;
+    private int diariasPromocao;
+    private double diariasDescontoPromocao;
+    private double descontoFidelidade;
 }

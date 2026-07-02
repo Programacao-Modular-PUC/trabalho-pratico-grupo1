@@ -1,5 +1,6 @@
 package br.pucminas.sistemahospedagem.service;
 
+import br.pucminas.sistemahospedagem.config.ConfiguracaoGlobalSistema;
 import br.pucminas.sistemahospedagem.exception.*;
 import br.pucminas.sistemahospedagem.model.Aluguel;
 import br.pucminas.sistemahospedagem.model.Pagamento;
@@ -21,14 +22,16 @@ public class AluguelService {
     private final AluguelRepository repository;
     private final TarifacaoContext tarifacaoContext;
     private final NotificacaoDispatcher dispatcher;
+    private final ConfiguracaoGlobalSistema config;
 
     @Autowired
     public AluguelService(AluguelRepository repository,
                           TarifacaoContext tarifacaoContext,
-                          NotificacaoDispatcher dispatcher) {
+                          NotificacaoDispatcher dispatcher, ConfiguracaoGlobalSistema config) {
         this.repository = repository;
         this.tarifacaoContext = tarifacaoContext != null ? tarifacaoContext : new TarifacaoContext();
         this.dispatcher = dispatcher;
+        this.config = config;
     }
 
     public Aluguel criar(Aluguel aluguel) {
@@ -37,7 +40,7 @@ public class AluguelService {
         validarCapacidade(aluguel);
 
         aluguel.getQuarto().setTarifacaoContext(tarifacaoContext);
-        aluguel.calcularValorFinal();
+        aluguel.calcularValorFinal(config.getCheckoutHora());
         aluguel.setStatus(StatusAluguel.RESERVADO);
 
         Pagamento pag = new Pagamento();
