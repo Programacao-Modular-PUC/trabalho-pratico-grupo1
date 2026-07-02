@@ -1,5 +1,10 @@
 package br.pucminas.sistemahospedagem.notification.observer;
 
+import br.pucminas.sistemahospedagem.notification.event.AluguelEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class WhatsAppChannel implements NotificacaoObserver {
 
@@ -8,12 +13,7 @@ public class WhatsAppChannel implements NotificacaoObserver {
 
     @Override
     public void notificar(AluguelEvent evento) {
-
-        log.info(
-            "[WHATSAPP] {}",
-            evento.getMensagem()
-        );
-
+        log.info("[WHATSAPP] {}", evento.getMensagem());
     }
 
     @Override

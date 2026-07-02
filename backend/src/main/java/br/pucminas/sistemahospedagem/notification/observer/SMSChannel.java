@@ -1,5 +1,10 @@
 package br.pucminas.sistemahospedagem.notification.observer;
 
+import br.pucminas.sistemahospedagem.notification.event.AluguelEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 @Component
 public class SMSChannel implements NotificacaoObserver {
 
@@ -8,12 +13,7 @@ public class SMSChannel implements NotificacaoObserver {
 
     @Override
     public void notificar(AluguelEvent evento) {
-
-        log.info(
-            "[SMS] {}",
-            evento.getMensagem()
-        );
-
+        log.info("[SMS] {}", evento.getMensagem());
     }
 
     @Override
