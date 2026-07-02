@@ -16,13 +16,7 @@ public class QuartoIndividual extends br.pucminas.sistemahospedagem.model.Quarto
 
     @Override
     public double calcularValorDiaria(int numHospedes) {
-        double valor;
-        if (numeroCamasSolteiro <= 1) {
-            valor = getValorBase();
-        } else {
-            valor = getValorBase() + (numeroCamasSolteiro - 1) * valorAdicionalPorCama;
-        }
-        return valor + calcularTaxasAdicionais();
+        return getTarifacaoContext().calcular(this, numHospedes);
     }
 
     @Override
