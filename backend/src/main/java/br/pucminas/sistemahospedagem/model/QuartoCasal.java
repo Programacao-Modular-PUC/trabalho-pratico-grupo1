@@ -1,7 +1,10 @@
 package br.pucminas.sistemahospedagem.model;
 import br.pucminas.sistemahospedagem.exception.RecursoNaoPermitidoException;
 import br.pucminas.sistemahospedagem.model.enums.TipoCamaCasal;
-import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,19 +23,7 @@ public class QuartoCasal extends br.pucminas.sistemahospedagem.model.Quarto {
 
     @Override
     public double calcularValorDiaria(int numHospedes) {
-        double valor = getValorBase();
-
-        valor += switch (tipoCamaCasal) {
-            case QUEEN -> valorAdicionalConforto * 0.5;
-            case KING -> valorAdicionalConforto;
-            default -> 0.0;
-        };
-
-        if (bercoInstalado) {
-            valor += valorAdicionalBerco;
-        }
-
-        return valor + calcularTaxasAdicionais();
+        return getTarifacaoContext().calcular(this, numHospedes);
     }
 
     @Override
