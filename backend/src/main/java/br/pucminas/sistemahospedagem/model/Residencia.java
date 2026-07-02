@@ -1,6 +1,7 @@
 package br.pucminas.sistemahospedagem.model;
 
 import br.pucminas.sistemahospedagem.model.embedded.Endereco;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,9 +30,11 @@ public class Residencia {
     @JoinColumn(name = "anfitriao_id", nullable = false)
     private Anfitriao anfitriao;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "residencia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Quarto> listaQuartos = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "residencia", cascade = CascadeType.ALL)
     private List<Aluguel> historicoAlugueis = new ArrayList<>();
 
