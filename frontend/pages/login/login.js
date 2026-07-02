@@ -1,9 +1,11 @@
-import { showModal } from "/assets/js/utils.js";
+import { spinner, showModal } from "/assets/js/utils.js";
+import { login } from "/assets/js/http.js";
+import { setSession } from "/assets/js/session.js";
 
-const USERS = [
-  { email: "lucas.silva@example.com", password: "123456", page: "client-dashboard" },
-  { email: "maria.santos@example.com", password: "123456", page: "hospede" },
-];
+const PAGE_BY_PAPEL = {
+  CLIENTE: "client-dashboard",
+  ANFITRIAO: "hospede",
+};
 
 async function initLogin() {
   const form = document.getElementById("login-form");
@@ -26,7 +28,7 @@ async function initLogin() {
     });
   });
 
-  form?.addEventListener("submit", (e) => {
+  form?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const email = emailInput.value.trim();
@@ -50,15 +52,20 @@ async function initLogin() {
 
     if (!valid) return;
 
-    const user = USERS.find((u) => u.email === email && u.password === password);
-    if (user) {
-      window.location.hash = user.page;
-    } else {
+    spinner.show();
+
+    try {
+      const usuario = await login(email, password);
+      const session = setSession(usuario);
+      window.location.hash = PAGE_BY_PAPEL[session.papel] ?? "home";
+    } catch (err) {
       showModal({
         type: "alert",
         title: "Erro ao entrar",
-        message: "E-mail ou senha incorretos. Verifique suas credenciais.",
+        message: err.message || "E-mail ou senha incorretos. Verifique suas credenciais.",
       });
+    } finally {
+      spinner.hide();
     }
   });
 

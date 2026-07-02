@@ -1,10 +1,51 @@
-import { loadComponent, showModal } from "/assets/js/utils.js";
+import { showModal } from "/assets/js/utils.js";
 import { StatusAluguel } from "/assets/enums/status-aluguel.js";
+import { getCliente, listAlugueisCliente, listQuartos } from "/assets/js/http.js";
+import { requireRole } from "/assets/js/session.js";
 
-async function getClientData() {
-  const path = "/assets/mocks/client.json";
-  const response = await fetch(path);
-  return response.json();
+function toClientViewModel(cliente) {
+  return {
+    nome: cliente.nome,
+    cpf: cliente.CPF,
+    email: cliente.email,
+    telefone: cliente.telefone,
+    endereco: {
+      cep: cliente.endereco?.CEP ?? "",
+      rua: cliente.endereco?.rua ?? "",
+      numero: cliente.endereco?.numero ?? "",
+      bairro: cliente.endereco?.bairro ?? "",
+      cidade: cliente.endereco?.cidade ?? "",
+      estado: cliente.endereco?.estado ?? "",
+    },
+  };
+}
+
+function toTripViewModel(aluguel, quartosById) {
+  const tipo = quartosById.get(aluguel.quarto?.id)?.tipo ?? "—";
+
+  return {
+    quarto: {
+      tipo,
+      residencia: aluguel.quarto?.residencia,
+    },
+    data_inicio: aluguel.dataPrevistaEntrada,
+    data_fim: aluguel.dataPrevistaSaida,
+    status: aluguel.status,
+    pagamento: aluguel.pagamento,
+  };
+}
+
+async function getClientData(clienteId) {
+  const [cliente, alugueis, quartos] = await Promise.all([
+    getCliente(clienteId),
+    listAlugueisCliente(clienteId),
+    listQuartos(),
+  ]);
+
+  const quartosById = new Map(quartos.map((q) => [q.id, q]));
+  const trips = alugueis.map((aluguel) => toTripViewModel(aluguel, quartosById));
+
+  return { ...toClientViewModel(cliente), alugueis: trips };
 }
 
 function formatDate(dateStr) {
@@ -45,7 +86,7 @@ function loadClientTrips(alugueis) {
 function loadClientPayments(alugueis) {
   const paymentsContainer = document.querySelector(".payments");
 
-  const payments = alugueis.map((aluguel) => {
+  const payments = alugueis.filter((aluguel) => aluguel.pagamento).map((aluguel) => {
     const status = aluguel.pagamento.status;
 
     const shouldShowDate = status === "PAGO" || status === "ESTORNADO";
@@ -263,7 +304,21 @@ function onItemClick() {
 }
 
 async function initClientDashboard() {
-  let clientData = await getClientData();
+  const session = requireRole("CLIENTE");
+  if (!session) return;
+
+  let clientData;
+
+  try {
+    clientData = await getClientData(session.clienteId);
+  } catch (err) {
+    showModal({
+      type: "alert",
+      title: "Erro ao carregar dados",
+      message: err.message || "Não foi possível carregar seus dados.",
+    });
+    return;
+  }
 
   onItemClick();
   renderClientData(clientData);
