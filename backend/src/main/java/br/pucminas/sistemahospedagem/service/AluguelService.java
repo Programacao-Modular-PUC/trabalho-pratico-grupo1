@@ -5,9 +5,11 @@ import br.pucminas.sistemahospedagem.model.Aluguel;
 import br.pucminas.sistemahospedagem.model.Pagamento;
 import br.pucminas.sistemahospedagem.model.enums.StatusAluguel;
 import br.pucminas.sistemahospedagem.model.enums.StatusPagamento;
+import br.pucminas.sistemahospedagem.model.tarifacao.TarifacaoContext;
 import br.pucminas.sistemahospedagem.notification.dispatcher.NotificacaoDispatcher;
 import br.pucminas.sistemahospedagem.notification.event.*;
 import br.pucminas.sistemahospedagem.repository.AluguelRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,10 +19,15 @@ import java.util.List;
 public class AluguelService {
 
     private final AluguelRepository repository;
+    private final TarifacaoContext tarifacaoContext;
     private final NotificacaoDispatcher dispatcher;
 
-    public AluguelService(AluguelRepository repository, NotificacaoDispatcher dispatcher) {
+    @Autowired
+    public AluguelService(AluguelRepository repository,
+                          TarifacaoContext tarifacaoContext,
+                          NotificacaoDispatcher dispatcher) {
         this.repository = repository;
+        this.tarifacaoContext = tarifacaoContext != null ? tarifacaoContext : new TarifacaoContext();
         this.dispatcher = dispatcher;
     }
 
@@ -29,6 +36,7 @@ public class AluguelService {
         validarDisponibilidade(aluguel);
         validarCapacidade(aluguel);
 
+        aluguel.getQuarto().setTarifacaoContext(tarifacaoContext);
         aluguel.calcularValorFinal();
         aluguel.setStatus(StatusAluguel.RESERVADO);
 
