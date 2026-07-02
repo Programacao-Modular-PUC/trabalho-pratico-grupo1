@@ -1,6 +1,18 @@
 package br.pucminas.sistemahospedagem.model;
 
-import jakarta.persistence.*;
+import br.pucminas.sistemahospedagem.model.tarifacao.TarifacaoContext;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +36,9 @@ public abstract class Quarto {
     private double valorAdicionalAr;
     private double valorAdicionalHidro;
 
+    @Transient
+    private TarifacaoContext tarifacaoContext = new TarifacaoContext();
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "residencia_id", nullable = false)
     private Residencia residencia;
@@ -41,5 +56,16 @@ public abstract class Quarto {
         if (isPossuiArCondicionado()) adicional += valorAdicionalAr;
         if (isPossuiHidromassagem()) adicional += valorAdicionalHidro;
         return adicional;
+    }
+
+    public TarifacaoContext getTarifacaoContext() {
+        if (tarifacaoContext == null) {
+            tarifacaoContext = new TarifacaoContext();
+        }
+        return tarifacaoContext;
+    }
+
+    public void setTarifacaoContext(TarifacaoContext tarifacaoContext) {
+        this.tarifacaoContext = tarifacaoContext;
     }
 }
