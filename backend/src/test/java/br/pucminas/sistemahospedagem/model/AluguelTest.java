@@ -1,5 +1,6 @@
 package br.pucminas.sistemahospedagem.model;
 
+import br.pucminas.sistemahospedagem.config.ConfiguracaoGlobalSistema;
 import br.pucminas.sistemahospedagem.exception.RecursoNaoPermitidoException;
 import br.pucminas.sistemahospedagem.model.enums.StatusAluguel;
 import br.pucminas.sistemahospedagem.model.enums.TipoCamaCasal;
@@ -11,6 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AluguelTest {
 
+    private final ConfiguracaoGlobalSistema config;
+
+    AluguelTest(ConfiguracaoGlobalSistema config) {
+        this.config = config;
+    }
+
     @Test
     void deveCalcularDiariasCorretamente() {
         Aluguel aluguel = new Aluguel();
@@ -18,7 +25,7 @@ class AluguelTest {
         aluguel.setDataPrevistaEntrada(LocalDateTime.of(2026, 6, 10, 10, 0));
         aluguel.setDataPrevistaSaida(LocalDateTime.of(2026, 6, 12, 14, 0));
 
-        int diarias = aluguel.calcularDiarias();
+        int diarias = aluguel.calcularDiarias(config.getCheckoutHora());
 
         assertEquals(3, diarias); // 2 dias + 1 por saída 12h
     }
@@ -26,7 +33,7 @@ class AluguelTest {
     @Test
     void deveRetornarZeroSeDatasInvalidas() {
         Aluguel aluguel = new Aluguel();
-        assertEquals(0, aluguel.calcularDiarias());
+        assertEquals(0, aluguel.calcularDiarias(config.getCheckoutHora()));
     }
 
     @Test
@@ -72,7 +79,7 @@ class AluguelTest {
         aluguel.setDataPrevistaEntrada(LocalDateTime.now().plusDays(1));
         aluguel.setDataPrevistaSaida(LocalDateTime.now().plusDays(2));
 
-        assertDoesNotThrow(aluguel::calcularValorFinal);
+        assertDoesNotThrow(() -> aluguel.calcularValorFinal(config.getCheckoutHora()));
     }
 
     @Test
@@ -88,6 +95,6 @@ class AluguelTest {
         aluguel.setDataPrevistaSaida(LocalDateTime.now().plusDays(2));
 
         assertThrows(RecursoNaoPermitidoException.class,
-                aluguel::calcularValorFinal);
+                () -> aluguel.calcularValorFinal(config.getCheckoutHora()));
     }
 }

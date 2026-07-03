@@ -47,7 +47,7 @@ public class Aluguel {
     @Enumerated(EnumType.STRING)
     private StatusAluguel status;
 
-    public double calcularValorFinal() {
+    public double calcularValorFinal(int horaCheckout) {
         if (quarto == null) return 0.0;
 
         if (quarto instanceof QuartoCasal quartoCasal) {
@@ -57,12 +57,12 @@ public class Aluguel {
         }
 
         double valorDiaria = quarto.calcularValorDiaria(numeroHospedes);
-        this.quantidadeDiarias = calcularDiarias();
+        this.quantidadeDiarias = calcularDiarias(horaCheckout);
         this.valorFinal = valorDiaria * quantidadeDiarias;
         return this.valorFinal;
     }
 
-    public int calcularDiarias() {
+    public int calcularDiarias(int horaCheckout) {
         if (dataPrevistaEntrada == null || dataPrevistaSaida == null) return 0;
 
         int diarias = (int) ChronoUnit.DAYS.between(
@@ -70,7 +70,7 @@ public class Aluguel {
                 dataPrevistaSaida.toLocalDate()
         );
 
-        if (dataPrevistaSaida.getHour() >= 12) {
+        if (dataPrevistaSaida.getHour() >= horaCheckout) {
             diarias++;
         }
 

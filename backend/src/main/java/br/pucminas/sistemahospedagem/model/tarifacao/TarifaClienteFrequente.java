@@ -1,5 +1,6 @@
 package br.pucminas.sistemahospedagem.model.tarifacao;
 
+import br.pucminas.sistemahospedagem.config.ConfiguracaoGlobalSistema;
 import br.pucminas.sistemahospedagem.model.Aluguel;
 import br.pucminas.sistemahospedagem.model.Quarto;
 import br.pucminas.sistemahospedagem.repository.AluguelRepository;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class TarifaClienteFrequente implements RegraTarifacao {
 
     private final AluguelRepository aluguelRepository;
+    private ConfiguracaoGlobalSistema config;
 
     @Override
     public double calcular(Quarto quarto, int numHospedes) { return 0.0; }
@@ -22,7 +24,7 @@ public class TarifaClienteFrequente implements RegraTarifacao {
         }
         int historico = aluguelRepository.findByClienteId(aluguel.getCliente().getId()).size();
         if (historico >= 3) {
-            return valorAtual * 0.85; // 15% de desconto de fidelidade
+            return valorAtual * config.getDescontoFidelidade(); // 15% de desconto de fidelidade
         }
         return valorAtual;
     }

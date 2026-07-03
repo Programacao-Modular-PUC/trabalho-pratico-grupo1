@@ -1,5 +1,6 @@
 package br.pucminas.sistemahospedagem.controller;
 
+import br.pucminas.sistemahospedagem.config.ConfiguracaoGlobalSistema;
 import br.pucminas.sistemahospedagem.dto.AplicarTarifaDTO;
 import br.pucminas.sistemahospedagem.model.Aluguel;
 import br.pucminas.sistemahospedagem.model.tarifacao.TarifacaoContext;
@@ -18,6 +19,7 @@ public class TarifacaoController {
 
     private final TarifacaoContext tarifacaoContext;
     private final AluguelRepository aluguelRepository;
+    private final ConfiguracaoGlobalSistema config;
 
     @GetMapping("/disponiveis")
     public ResponseEntity<List<String>> listarRegras() {
@@ -33,7 +35,7 @@ public class TarifacaoController {
                 .orElseThrow(() -> new RuntimeException("Aluguel não encontrado"));
 
         // Calcula o valor base usando o método existente do Aluguel
-        double valorBase = aluguel.calcularValorFinal();
+        double valorBase = aluguel.calcularValorFinal(config.getCheckoutHora());
         
         // Aplica a estratégia de negócio selecionada via DTO
         double valorCalculado = tarifacaoContext.calcularValorComRegraEspecifica(dto.nomeRegra(), aluguel, valorBase);
