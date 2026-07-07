@@ -1,4 +1,4 @@
-import { env } from "/frontend/env.js";
+import { env } from "/env.js";
 import { spinner, showModal } from "/assets/js/utils.js";
 
 /**

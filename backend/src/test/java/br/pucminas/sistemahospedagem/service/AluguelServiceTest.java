@@ -1,4 +1,5 @@
 package br.pucminas.sistemahospedagem.service;
+import br.pucminas.sistemahospedagem.config.ConfiguracaoGlobalSistema;
 import br.pucminas.sistemahospedagem.model.tarifacao.TarifacaoContext;
 import br.pucminas.sistemahospedagem.exception.*;
 import br.pucminas.sistemahospedagem.model.*;
@@ -21,13 +22,14 @@ class AluguelServiceTest {
     private NotificacaoDispatcher dispatcher;
     private AluguelService service;
     private TarifacaoContext tarifacaoContext;
+    private ConfiguracaoGlobalSistema config;
 
     @BeforeEach
     void setup() {
         repository = mock(AluguelRepository.class);
         dispatcher = mock(NotificacaoDispatcher.class);
         tarifacaoContext = mock(TarifacaoContext.class);
-        service = new AluguelService(repository, tarifacaoContext, dispatcher);
+        service = new AluguelService(repository, tarifacaoContext, dispatcher, config);
     }
 
     // --- testes existentes ---

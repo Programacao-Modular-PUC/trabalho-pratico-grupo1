@@ -1,5 +1,6 @@
 package br.pucminas.sistemahospedagem.controller;
 
+import br.pucminas.sistemahospedagem.dto.LoginDTO;
 import br.pucminas.sistemahospedagem.dto.RegistroDTO;
 import br.pucminas.sistemahospedagem.model.Usuario;
 import br.pucminas.sistemahospedagem.service.AuthService;
@@ -17,5 +18,10 @@ public class AuthController {
     @PostMapping("/registro")
     public ResponseEntity<Usuario> registrar(@RequestBody RegistroDTO dto) {
         return ResponseEntity.ok(authService.registrar(dto));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Usuario> login(@RequestBody LoginDTO dto) {
+        return ResponseEntity.ok(authService.login(dto));
     }
 }

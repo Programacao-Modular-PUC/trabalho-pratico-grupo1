@@ -7,7 +7,8 @@ public record ResidenciaResponseDTO(
         String telefone,
         String email,
         String cidade,
-        String estado
+        String estado,
+        Long anfitriaoId
 ) {
     public static ResidenciaResponseDTO fromEntity(Residencia r) {
         return new ResidenciaResponseDTO(
@@ -15,7 +16,8 @@ public record ResidenciaResponseDTO(
                 r.getTelefone(),
                 r.getEmail(),
                 r.getEndereco().getCidade(),
-                r.getEndereco().getEstado()
+                r.getEndereco().getEstado(),
+                r.getAnfitriao() != null ? r.getAnfitriao().getId() : null
         );
     }
 }

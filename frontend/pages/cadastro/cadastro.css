@@ -1,0 +1,201 @@
+@import "/assets/css/variables.css";
+
+.cadastro-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: var(--spacing-xl) 0;
+}
+
+.cadastro-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  width: 100%;
+  max-width: 34rem;
+  padding: var(--spacing-xxl);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.cadastro-title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.cadastro-title h1 {
+  font-size: var(--font-xl);
+  font-weight: var(--font-bold);
+  color: var(--color-dark);
+  font-family: var(--font-primary);
+}
+
+.cadastro-title p {
+  font-size: var(--font-md);
+  color: var(--color-text-light);
+  font-family: var(--font-secondary);
+}
+
+#cadastro-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+#cadastro-form .form-row {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+#cadastro-form .form-row .form-group {
+  flex: 1;
+  min-width: 0;
+}
+
+#cadastro-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+#cadastro-form .form-group label {
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-dark);
+  font-family: var(--font-primary);
+}
+
+#cadastro-form .form-group input {
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-md);
+  font-family: var(--font-secondary);
+  color: var(--color-dark);
+  background: transparent;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+#cadastro-form .form-group input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+#cadastro-form .form-group input.error {
+  border-color: #d32f2f;
+}
+
+.papel-toggle {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.papel-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-md);
+  font-family: var(--font-secondary);
+  color: var(--color-dark);
+  cursor: pointer;
+}
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s;
+}
+
+.password-wrapper:focus-within {
+  border-color: var(--color-primary);
+}
+
+.password-wrapper.error {
+  border-color: #d32f2f;
+}
+
+.password-wrapper input {
+  flex: 1;
+  padding: var(--spacing-sm);
+  border: none;
+  outline: none;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  font-size: var(--font-md);
+  font-family: var(--font-secondary);
+  color: var(--color-dark);
+  background: transparent;
+}
+
+#toggle-password {
+  padding: 0 var(--spacing-sm);
+  background: none;
+  border: none;
+  color: var(--color-text-light);
+  font-size: var(--font-sm);
+  font-family: var(--font-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+#toggle-password:hover {
+  color: var(--color-primary);
+}
+
+.btn-cadastrar {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-primary);
+  color: var(--color-background);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-md);
+  font-family: var(--font-primary);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  margin-top: var(--spacing-xs);
+  transition: opacity 0.2s;
+}
+
+.btn-cadastrar:hover {
+  opacity: 0.85;
+}
+
+.cadastro-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--color-text-light);
+  font-size: var(--font-sm);
+}
+
+.cadastro-divider::before,
+.cadastro-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.btn-login-link {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-background);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-md);
+  font-family: var(--font-primary);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-login-link:hover {
+  opacity: 0.8;
+}

@@ -1,52 +1,7 @@
 import { showModal } from "/assets/js/utils.js";
 import { StatusAluguel } from "/assets/enums/status-aluguel.js";
-
-const hostMock = {
-  nome: "Maria Santos",
-  cpf: "987.654.321-00",
-  email: "maria.santos@example.com",
-  telefone: "(73) 99876-5432",
-  avaliacao: 4.8,
-  membro_desde: "Março de 2022",
-  endereco: {
-    cep: "45520-000",
-    rua: "Rua da Praia",
-    numero: "42",
-    bairro: "Centro",
-    cidade: "Maraú",
-    estado: "BA",
-  },
-  quartos: [
-    { id: 1, tipo: "INDIVIDUAL", cidade: "Maraú", estado: "BA", status: "DISPONIVEL", preco: 120.0 },
-    { id: 2, tipo: "CASAL", cidade: "Barra Grande", estado: "BA", status: "OCUPADO", preco: 200.0 },
-    { id: 3, tipo: "SUITE", cidade: "Maraú", estado: "BA", status: "DISPONIVEL", preco: 280.0 },
-  ],
-  reservas: [
-    {
-      id: 1, hospede: "Lucas Silva",
-      quarto_tipo: "INDIVIDUAL", quarto_cidade: "Maraú",
-      data_inicio: "2025-06-20", data_fim: "2025-06-25",
-      status: "RESERVADO", valor: 600.0,
-    },
-    {
-      id: 2, hospede: "Ana Costa",
-      quarto_tipo: "SUITE", quarto_cidade: "Maraú",
-      data_inicio: "2025-07-01", data_fim: "2025-07-07",
-      status: "EM_ANDAMENTO", valor: 1680.0,
-    },
-    {
-      id: 3, hospede: "Pedro Alves",
-      quarto_tipo: "CASAL", quarto_cidade: "Barra Grande",
-      data_inicio: "2025-05-10", data_fim: "2025-05-15",
-      status: "CONCLUIDO", valor: 1000.0,
-    },
-  ],
-  pagamentos: [
-    { id: 1, hospede: "Ana Costa", valor: 1680.0, data: "2025-06-01", status: "PENDENTE" },
-    { id: 2, hospede: "Pedro Alves", valor: 1000.0, data: "2025-05-10", status: "PAGO" },
-    { id: 3, hospede: "Carla Nunes", valor: 600.0, data: "2025-04-15", status: "PAGO" },
-  ],
-};
+import { getAnfitriao, listResidencias, listQuartos, listAlugueis } from "/assets/js/http.js";
+import { requireRole } from "/assets/js/session.js";
 
 const tipoLabel = {
   INDIVIDUAL: "Quarto Individual",
@@ -54,10 +9,72 @@ const tipoLabel = {
   SUITE: "Suíte",
 };
 
+// O backend não modela disponibilidade por quarto (só por intervalo de datas),
+// então não há um status DISPONIVEL/OCUPADO real para exibir aqui.
 const statusQuartoLabel = {
   DISPONIVEL: "Disponível",
-  OCUPADO: "Ocupado",
 };
+
+async function getHostData(anfitriaoId) {
+  const [anfitriao, todasResidencias, todosQuartos, todosAlugueis] = await Promise.all([
+    getAnfitriao(anfitriaoId),
+    listResidencias(),
+    listQuartos(),
+    listAlugueis(),
+  ]);
+
+  const residencias = todasResidencias.filter((r) => r.anfitriaoId === anfitriaoId);
+  const residenciaIds = new Set(residencias.map((r) => r.id));
+  const residenciasById = new Map(residencias.map((r) => [r.id, r]));
+  const quartos = todosQuartos.filter((q) => residenciaIds.has(q.residenciaId));
+  const quartosById = new Map(quartos.map((q) => [q.id, q]));
+
+  const reservasDoHost = todosAlugueis.filter((a) => residenciaIds.has(a.residencia?.id));
+
+  return {
+    nome: anfitriao.nome,
+    cpf: anfitriao.CPF,
+    email: anfitriao.email,
+    telefone: anfitriao.telefone,
+    avaliacao: null,
+    membro_desde: null,
+    endereco: {
+      cep: anfitriao.endereco?.CEP ?? "",
+      rua: anfitriao.endereco?.rua ?? "",
+      numero: anfitriao.endereco?.numero ?? "",
+      bairro: anfitriao.endereco?.bairro ?? "",
+      cidade: anfitriao.endereco?.cidade ?? "",
+      estado: anfitriao.endereco?.estado ?? "",
+    },
+    quartos: quartos.map((q) => ({
+      id: q.id,
+      tipo: q.tipo,
+      cidade: residenciasById.get(q.residenciaId)?.cidade ?? "",
+      estado: residenciasById.get(q.residenciaId)?.estado ?? "",
+      status: "DISPONIVEL",
+      preco: q.valorBase,
+    })),
+    reservas: reservasDoHost.map((a) => ({
+      id: a.id,
+      hospede: a.cliente?.nome ?? "—",
+      quarto_tipo: quartosById.get(a.quarto?.id)?.tipo ?? "—",
+      quarto_cidade: residenciasById.get(a.residencia?.id)?.cidade ?? "",
+      data_inicio: a.dataPrevistaEntrada?.split("T")[0],
+      data_fim: a.dataPrevistaSaida?.split("T")[0],
+      status: a.status,
+      valor: a.valorFinal,
+    })),
+    pagamentos: reservasDoHost
+      .filter((a) => a.pagamento)
+      .map((a) => ({
+        id: a.id,
+        hospede: a.cliente?.nome ?? "—",
+        valor: a.pagamento.valor,
+        data: a.pagamento.dataPagamento,
+        status: a.pagamento.status,
+      })),
+  };
+}
 
 function formatDate(dateStr) {
   const [year, month, day] = dateStr.split("-");
@@ -80,9 +97,9 @@ function getInitials(name) {
 function renderHostProfile(host) {
   document.getElementById("host-avatar").textContent = getInitials(host.nome);
   document.getElementById("host-nome-display").textContent = host.nome;
-  document.getElementById("host-avaliacao").textContent = `★ ${host.avaliacao}`;
+  document.getElementById("host-avaliacao").textContent = host.avaliacao ? `★ ${host.avaliacao}` : "—";
   document.getElementById("host-quartos-count").textContent = `${host.quartos.length} imóveis`;
-  document.getElementById("host-membro-desde").textContent = `Membro desde ${host.membro_desde}`;
+  document.getElementById("host-membro-desde").textContent = host.membro_desde ? `Membro desde ${host.membro_desde}` : "—";
 
   const fields = {
     nome: host.nome,
@@ -303,12 +320,28 @@ function addQuartoButton() {
 }
 
 async function initHospede() {
+  const session = requireRole("ANFITRIAO");
+  if (!session) return;
+
+  let hostData;
+
+  try {
+    hostData = await getHostData(session.anfitriaoId);
+  } catch (err) {
+    showModal({
+      type: "alert",
+      title: "Erro ao carregar dados",
+      message: err.message || "Não foi possível carregar seus dados.",
+    });
+    return;
+  }
+
   onItemClick();
-  renderHostProfile(hostMock);
-  loadQuartos(hostMock.quartos);
-  loadReservas(hostMock.reservas);
-  loadPagamentos(hostMock.pagamentos);
-  buttonsActions(hostMock);
+  renderHostProfile(hostData);
+  loadQuartos(hostData.quartos);
+  loadReservas(hostData.reservas);
+  loadPagamentos(hostData.pagamentos);
+  buttonsActions(hostData);
   inputsActions();
   addQuartoButton();
 }

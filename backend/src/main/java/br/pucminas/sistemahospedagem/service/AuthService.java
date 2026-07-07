@@ -1,6 +1,8 @@
 package br.pucminas.sistemahospedagem.service;
 
+import br.pucminas.sistemahospedagem.dto.LoginDTO;
 import br.pucminas.sistemahospedagem.dto.RegistroDTO;
+import br.pucminas.sistemahospedagem.exception.CredenciaisInvalidasException;
 import br.pucminas.sistemahospedagem.model.Anfitriao;
 import br.pucminas.sistemahospedagem.model.Cliente;
 import br.pucminas.sistemahospedagem.model.Usuario;
@@ -41,5 +43,16 @@ public class AuthService {
         }
 
         return usuarioRepository.save(usuario);
+    }
+
+    public Usuario login(LoginDTO dto) {
+        Usuario usuario = usuarioRepository.findByEmailLogin(dto.getEmailLogin())
+                .orElseThrow(() -> new CredenciaisInvalidasException("Credenciais inválidas"));
+
+        if (!usuario.getSenha().equals(dto.getSenha())) {
+            throw new CredenciaisInvalidasException("Credenciais inválidas");
+        }
+
+        return usuario;
     }
 }
